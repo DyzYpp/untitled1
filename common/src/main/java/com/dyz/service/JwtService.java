@@ -20,7 +20,7 @@ public class JwtService {
         JwtResponseData jwtResponseData = new JwtResponseData();
         String header = request.getHeader("Authorization");
         if (header == null || header.equals("null") || header == "null"){
-            jwtResponseData.setCode(500);
+            jwtResponseData.setCode(400);
             jwtResponseData.setMsg("您还未登录");
             return jwtResponseData;
         }
@@ -34,7 +34,7 @@ public class JwtService {
             return jwtResponseData;
         } else {
             jwtResponseData.setCode(500);
-            jwtResponseData.setMsg("验证失败!");
+            jwtResponseData.setMsg("身份凭证已经过期!");
             return jwtResponseData;
         }
     }

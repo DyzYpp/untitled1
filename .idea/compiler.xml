@@ -9,6 +9,7 @@
         <module name="order_center" />
         <module name="common" />
         <module name="user_center" />
+        <module name="web_socket" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -16,6 +17,7 @@
       <module name="order_center" target="1.8" />
       <module name="untitled1" target="1.8" />
       <module name="user_center" target="1.8" />
+      <module name="web_socket" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -23,6 +25,7 @@
       <module name="common" options="-parameters" />
       <module name="order_center" options="-parameters" />
       <module name="user_center" options="-parameters" />
+      <module name="web_socket" options="-parameters" />
     </option>
   </component>
 </project>

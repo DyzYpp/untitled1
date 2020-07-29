@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/order_center/order_center.iml" filepath="$PROJECT_DIR$/order_center/order_center.iml" />
       <module fileurl="file://$PROJECT_DIR$/untitled1.iml" filepath="$PROJECT_DIR$/untitled1.iml" />
       <module fileurl="file://$PROJECT_DIR$/user_center/user_center.iml" filepath="$PROJECT_DIR$/user_center/user_center.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web_socket/web_socket.iml" filepath="$PROJECT_DIR$/web_socket/web_socket.iml" />
     </modules>
   </component>
 </project>

@@ -31,7 +31,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         response.setContentType("text/html;charset=utf-8");
         ServletOutputStream outputStream = response.getOutputStream();
         jwtResponseData = (JwtResponseData) jwtService.testAll(request);
-        if (jwtResponseData.getCode() != 500){
+        if (jwtResponseData.getCode() != 500 && jwtResponseData.getCode() != 400){
             return true;
         }else{
             outputStream.write(jwtResponseData.getMsg().getBytes());
