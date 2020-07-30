@@ -23,4 +23,10 @@ public class OrderController {
     public String order(){
         return  "订单服务调用成功";
     }
+
+    @RequestMapping("/")
+    @ResponseBody
+    public String test(){
+        return  "订单服务代理成功";
+    }
 }

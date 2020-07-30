@@ -1,15 +1,17 @@
 package com.dyz.controller;
 
-import com.dyz.Jwt.JWTResult;
 import com.dyz.Jwt.JWTSubject;
 import com.dyz.Jwt.JwtResponseData;
 import com.dyz.Jwt.JwtUtils;
+import com.dyz.Util.CookieUtil;
+import com.dyz.Util.RedisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,6 +25,12 @@ import java.util.UUID;
 @RequestMapping("/jwt")
 public class JWTController {
 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private CookieUtil cookieUtil;
+
     /*
      * @Description 登录功能
      * @param name 用户名
@@ -31,18 +39,21 @@ public class JWTController {
      **/
     @RequestMapping(value = "/login")
     @ResponseBody
-    public Object login(@RequestBody() Map<String, String> map) {
+    public Object login(@RequestBody() Map<String, String> map,HttpServletResponse response) {
         String name = map.get("username");
         String password = map.get("password");
         JwtResponseData jwtResponseData = null;
         if (name.trim() != "admin" && password.trim() != "123456") {
             JWTSubject jwtSubject = new JWTSubject(name);
-            String token = JwtUtils.createToken(UUID.randomUUID().toString(), "Dyz", JwtUtils.generaSubject(jwtSubject), 1 * 60 * 1000);
+            String token = JwtUtils.createToken(UUID.randomUUID().toString(), "Dyz", JwtUtils.generaSubject(jwtSubject), 60 * 60 * 1000);
             jwtResponseData = new JwtResponseData();
             jwtResponseData.setCode(200);
             jwtResponseData.setData(null);
             jwtResponseData.setMsg("登录成功");
             jwtResponseData.setToken(token);
+            Map<String,String> stringMap = new HashMap<>();
+            stringMap.put("token",token);
+            redisUtil.hmset(cookieUtil.setCookie(response),stringMap);
         } else {
             jwtResponseData = new JwtResponseData();
             jwtResponseData.setCode(500);

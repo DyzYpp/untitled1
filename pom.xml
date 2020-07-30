@@ -63,39 +63,10 @@
             <version>1.8.8</version>
         </dependency>
 
-      <!--  <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>common</artifactId>
-        </dependency>
-
         <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>order_center</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>user_center</artifactId>
-        </dependency>-->
-        <!-- 添加mybatis依赖-->
-       <!-- <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${org.mybatis.spring.boot.version}</version>
-        </dependency>-->
-        <!-- 添加mysql驱动依赖 -->
-     <!--   <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-            <version>${mysql.driver.version}</version>
-        </dependency>-->
-        <!-- 添加数据库连接池依赖 -->
-     <!--   <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${alibaba.druid.version}</version>
-        </dependency>-->
 
     </dependencies>
 

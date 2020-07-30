@@ -1,5 +1,7 @@
 package com.dyz;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,7 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class OrderCenterApplication {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderCenterApplication.class);
+
     public static void main(String[] args) {
         SpringApplication.run(OrderCenterApplication.class,args);
+        logger.info("-----订单系统启动成功------");
     }
 }

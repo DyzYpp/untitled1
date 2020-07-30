@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -16,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @ClassName MyWebSocket
- * @Author
  * @Date 2020/7/29
  * @description
  */
@@ -81,14 +81,19 @@ public class MyWebSocket {
      * 向当前客户端发送消息
      * @param message
      */
+    @Scheduled(fixedDelay = 5000)
     public void sendMessage(String message) {
         try {
             if (this.session == null){
                 for (String s : webSocketMap.keySet()) {
-                    webSocketMap.get(s).session.getBasicRemote().sendText(message);
+                    synchronized (webSocketMap.get(s).session){
+                        webSocketMap.get(s).session.getBasicRemote().sendText(message);
+                    }
                 }
             }else {
-                this.session.getBasicRemote().sendText(message);
+                synchronized (this.session){
+                    this.session.getBasicRemote().sendText(message);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

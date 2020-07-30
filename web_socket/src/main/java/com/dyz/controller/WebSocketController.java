@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,12 +25,7 @@ public class WebSocketController {
     @PostMapping(value = "/sendSocketMsg")
     @ResponseBody
     public void returnMsg(){
-        try {
-            Thread.sleep(5000);
             String string = "接收到服务端" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "发送的消息";
             myWebSocket.sendMessage(string);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

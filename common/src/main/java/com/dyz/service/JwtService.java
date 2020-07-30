@@ -16,15 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class JwtService {
 
-    public Object testAll(HttpServletRequest request) {
+    public Object testAll(String tokenStr) {
         JwtResponseData jwtResponseData = new JwtResponseData();
-        String header = request.getHeader("Authorization");
-        if (header == null || header.equals("null") || header == "null"){
-            jwtResponseData.setCode(400);
-            jwtResponseData.setMsg("您还未登录");
-            return jwtResponseData;
-        }
-        JWTResult jwtResult = JwtUtils.validateJWT(header);
+//        String header = request.getHeader("Authorization");
+//        if (header == null || header.equals("null") || header == "null"){
+//            jwtResponseData.setCode(400);
+//            jwtResponseData.setMsg("您还未登录");
+//            return jwtResponseData;
+//        }
+        JWTResult jwtResult = JwtUtils.validateJWT(tokenStr);
 
         if (jwtResult.isSuccess()) {
             jwtResponseData.setCode(200);
@@ -32,11 +32,14 @@ public class JwtService {
             String token = JwtUtils.createToken(jwtResult.getClaims().getId(), jwtResult.getClaims().getIssuer(), jwtResult.getClaims().getSubject(), 1 * 60 * 1000);
             jwtResponseData.setToken(token);
             return jwtResponseData;
-        } else {
+        } else if (tokenStr == null || tokenStr.equals(null)){
+            jwtResponseData.setCode(400);
+            jwtResponseData.setMsg("您还未登录!");
+            return jwtResponseData;
+        }else{
             jwtResponseData.setCode(500);
-            jwtResponseData.setMsg("身份凭证已经过期!");
+            jwtResponseData.setMsg("身份凭证过期!");
             return jwtResponseData;
         }
     }
-
 }

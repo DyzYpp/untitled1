@@ -1,14 +1,19 @@
 package com.dyz.config;
 
 import com.dyz.Jwt.JwtResponseData;
+import com.dyz.Util.CookieUtil;
+import com.dyz.Util.RedisUtil;
 import com.dyz.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @ClassName RequestInterceptor
@@ -25,15 +30,24 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtResponseData jwtResponseData;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private CookieUtil cookieUtil;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String utilCookie = cookieUtil.getCookie(request);
+        Map<String, String> stringMap = redisUtil.hmget(utilCookie);
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         ServletOutputStream outputStream = response.getOutputStream();
-        jwtResponseData = (JwtResponseData) jwtService.testAll(request);
-        if (jwtResponseData.getCode() != 500 && jwtResponseData.getCode() != 400){
+        String token = stringMap.get("token");
+        jwtResponseData = (JwtResponseData) jwtService.testAll(token);
+        if (jwtResponseData.getCode() != 500 && jwtResponseData.getCode() != 400) {
             return true;
-        }else{
+        } else {
             outputStream.write(jwtResponseData.getMsg().getBytes());
             return false;
         }
