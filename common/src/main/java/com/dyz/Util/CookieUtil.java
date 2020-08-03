@@ -16,7 +16,7 @@ import java.util.UUID;
 @Component
 public class CookieUtil {
 
-    private static final String LOGIN_FLAG = "LOG_COK";
+    private static final String LOGIN_FLAG = "LOGIN_COOKIE";
 
     public  String setCookie(HttpServletResponse response){
         String uuid = UUID.randomUUID().toString();
@@ -26,7 +26,7 @@ public class CookieUtil {
         return uuid;
     }
 
-    public  String getCookie(HttpServletRequest request){
+    public String getCookie(HttpServletRequest request){
         if (request.getCookies() != null){
             for (Cookie cookie : request.getCookies()) {
                 cookie.setPath("/");
@@ -36,5 +36,14 @@ public class CookieUtil {
             }
         }
         return null;
+    }
+
+    public void clearCookie(HttpServletRequest request,HttpServletResponse response){
+        for (Cookie cookies : request.getCookies()) {
+            Cookie cookie = new Cookie(cookies.getName(),null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
     }
 }

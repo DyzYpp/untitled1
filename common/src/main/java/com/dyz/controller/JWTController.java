@@ -46,14 +46,17 @@ public class JWTController {
         if (name.trim() != "admin" && password.trim() != "123456") {
             JWTSubject jwtSubject = new JWTSubject(name);
             String token = JwtUtils.createToken(UUID.randomUUID().toString(), "Dyz", JwtUtils.generaSubject(jwtSubject), 60 * 60 * 1000);
+            String setCookie = cookieUtil.setCookie(response);
             jwtResponseData = new JwtResponseData();
             jwtResponseData.setCode(200);
-            jwtResponseData.setData(null);
+            jwtResponseData.setData(setCookie);
             jwtResponseData.setMsg("登录成功");
-            jwtResponseData.setToken(token);
+            jwtResponseData.setToken(null);
             Map<String,String> stringMap = new HashMap<>();
             stringMap.put("token",token);
-            redisUtil.hmset(cookieUtil.setCookie(response),stringMap);
+            stringMap.put("name",name);
+            stringMap.put("password",password);
+            redisUtil.hmset(setCookie,stringMap);
         } else {
             jwtResponseData = new JwtResponseData();
             jwtResponseData.setCode(500);
@@ -69,13 +72,10 @@ public class JWTController {
      * @param request
      * @return java.lang.Object
      **/
-   /* @RequestMapping(value = "/testJwt")
-    @ResponseBody*/
-
-
     @ResponseBody
     @RequestMapping("/test")
-    public String test(){
+    public String test(HttpServletResponse response){
+        String s = cookieUtil.setCookie(response);
         return "公共服务调用成功";
     }
 }

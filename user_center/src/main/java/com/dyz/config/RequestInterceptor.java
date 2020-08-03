@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,18 +37,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Map<String, String> stringMap = redisUtil.hmget(cookieUtil.getCookie(request));
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
-        ServletOutputStream outputStream = response.getOutputStream();
-        String token = stringMap.get("token");
-        jwtResponseData = (JwtResponseData) jwtService.testAll(token);
-        if (jwtResponseData.getCode() != 500 && jwtResponseData.getCode() != 400) {
-            return true;
-        } else {
-            outputStream.write(jwtResponseData.getMsg().getBytes());
-            return false;
-        }
+        return true;
     }
 
     @Override

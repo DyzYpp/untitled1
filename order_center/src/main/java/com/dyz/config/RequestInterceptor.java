@@ -38,19 +38,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String utilCookie = cookieUtil.getCookie(request);
-        Map<String, String> stringMap = redisUtil.hmget(utilCookie);
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
-        ServletOutputStream outputStream = response.getOutputStream();
-        String token = stringMap.get("token");
-        jwtResponseData = (JwtResponseData) jwtService.testAll(token);
-        if (jwtResponseData.getCode() != 500 && jwtResponseData.getCode() != 400) {
-            return true;
-        } else {
-            outputStream.write(jwtResponseData.getMsg().getBytes());
-            return false;
-        }
+        return true;
     }
 
     @Override
